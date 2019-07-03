@@ -1,0 +1,194 @@
+{
+  "additionalInfo": "{\"success\":true,\"data\":{\"testCaseResultId\":\"5d1c7a231e4a2683b46cca1d\",\"executionFilesData\":{\"detectElementAtReplay\":null,\"projectKey\":null,\"packageId\":null,\"group\":null,\"description\":null,\"testCaseType\":null,\"name\":null,\"steps\":[{\"id\":0,\"event\":{\"type\":\"launch\",\"eventTime\":1562080848513},\"screen\":{\"dom\":\"dom_1562080848591.xml\",\"image\":\"screenshot_1562080848591.png\",\"fullImageUrl\":\"http://127.0.0.1:9000/mesmer-static-content/mesmer-dev/uploads/patterns/5d1b113282e96a7bc6602f38/screenshot_1562080848591.png\"},\"domUrl\":\"http://127.0.0.1:9000/mesmer-static-content/mesmer-dev/uploads/patterns/5d1b113282e96a7bc6602f38/dom/dom_1562080848591.xml\",\"element\":null}]}}}",
+  "testCaseName": "test4",
+  "testCaseResultId": "5d1c7a231e4a2683b46cca1d",
+  "testCaseId": "5d1b113282e96a7bc6602f38"
+}
+{
+  "steps": [
+    {
+      "element": null,
+      "event": {
+        "type": "launch",
+        "eventTime": 1561568928919
+      },
+      "stepId": 1,
+      "screen": {
+        "image": "screenshot_1561568929072.png",
+        "dom": "dom_1561568929072.xml",
+        "fullImageUrl": "http://127.0.0.1:9000/mesmer-static-content/mesmer-dev/uploads/patterns/5d13a696ec0fecde3c4c7a81/screenshot_1561568929072.png"
+      },
+      "domUrl": "http://127.0.0.1:9000/mesmer-static-content/mesmer-dev/uploads/patterns/5d13a696ec0fecde3c4c7a81/dom/dom_1561568929072.xml",
+      "result": {
+        "success": true,
+        "status": true
+      }
+    },
+    {
+      "element": {
+        "text": "NEXT",
+        "type": "android.widget.TextView",
+        "pkg": "com.olo.dairyqueen.preproduction",
+        "contentDesc": "Next Page",
+        "checkable": false,
+        "checked": false,
+        "clickable": true,
+        "enabled": true,
+        "focusable": false,
+        "focused": false,
+        "scrollable": false,
+        "longClickable": false,
+        "password": false,
+        "selected": false,
+        "bounds": "[1198,2230][1440,2392]",
+        "id": "com.olo.dairyqueen.preproduction:id/nextButton"
+      },
+      "event": {
+        "type": "tap",
+        "eventTime": 1561568938280,
+        "startX": 1348,
+        "startY": 2308
+      },
+      "stepId": 2,
+      "screen": {
+        "image": "screenshot_1561568937293.png",
+        "dom": "dom_1561568937293.xml",
+        "fullImageUrl": "http://127.0.0.1:9000/mesmer-static-content/mesmer-dev/uploads/patterns/5d13a696ec0fecde3c4c7a81/screenshot_1561568937293.png"
+      },
+      "domUrl": "http://127.0.0.1:9000/mesmer-static-content/mesmer-dev/uploads/patterns/5d13a696ec0fecde3c4c7a81/dom/dom_1561568937293.xml",
+      "result": {
+        "success": true,
+        "status": true
+      }
+    },
+    {
+      "element": {
+        "text": "NEXT",
+        "type": "android.widget.TextView",
+        "pkg": "com.olo.dairyqueen.preproduction",
+        "contentDesc": "Next Page",
+        "checkable": false,
+        "checked": false,
+        "clickable": true,
+        "enabled": true,
+        "focusable": false,
+        "focused": false,
+        "scrollable": false,
+        "longClickable": false,
+        "password": false,
+        "selected": false,
+        "bounds": "[1198,2230][1440,2392]",
+        "id": "com.olo.dairyqueen.preproduction:id/nextButton"
+      },
+      "event": {
+        "type": "tap",
+        "eventTime": 1561568962148,
+        "startX": 1284,
+        "startY": 2304
+      },
+      "stepId": 3,
+      "screen": {
+        "image": "screenshot_1561568961610.png",
+        "dom": "dom_1561568961610.xml",
+        "fullImageUrl": "http://127.0.0.1:9000/mesmer-static-content/mesmer-dev/uploads/patterns/5d13a696ec0fecde3c4c7a81/screenshot_1561568961610.png"
+      },
+      "domUrl": "http://127.0.0.1:9000/mesmer-static-content/mesmer-dev/uploads/patterns/5d13a696ec0fecde3c4c7a81/dom/dom_1561568961610.xml",
+      "result": {
+        "success": true,
+        "status": true
+      }
+    },
+    {
+      "element": {
+        "text": "DONE",
+        "type": "android.widget.TextView",
+        "pkg": "com.olo.dairyqueen.preproduction",
+        "contentDesc": "",
+        "checkable": false,
+        "checked": false,
+        "clickable": true,
+        "enabled": true,
+        "focusable": false,
+        "focused": false,
+        "scrollable": false,
+        "longClickable": false,
+        "password": false,
+        "selected": false,
+        "bounds": "[1189,2230][1440,2392]",
+        "id": "com.olo.dairyqueen.preproduction:id/doneButton"
+      },
+      "event": {
+        "type": "tap",
+        "eventTime": 1561568965135,
+        "startX": 1284,
+        "startY": 2304
+      },
+      "stepId": 4,
+      "screen": {
+        "image": "screenshot_1561568964549.png",
+        "dom": "dom_1561568964549.xml",
+        "fullImageUrl": "http://127.0.0.1:9000/mesmer-static-content/mesmer-dev/uploads/patterns/5d13a696ec0fecde3c4c7a81/screenshot_1561568964549.png"
+      },
+      "domUrl": "http://127.0.0.1:9000/mesmer-static-content/mesmer-dev/uploads/patterns/5d13a696ec0fecde3c4c7a81/dom/dom_1561568964549.xml",
+      "result": {
+        "success": true,
+        "status": true
+      }
+    },
+    {
+      "element": {
+        "text": "LOG IN",
+        "type": "android.widget.Button",
+        "pkg": "com.olo.dairyqueen.preproduction",
+        "contentDesc": "",
+        "checkable": false,
+        "checked": false,
+        "clickable": true,
+        "enabled": true,
+        "focusable": true,
+        "focused": false,
+        "scrollable": false,
+        "longClickable": false,
+        "password": false,
+        "selected": false,
+        "bounds": "[0,1248][1440,1363]",
+        "id": "com.olo.dairyqueen.preproduction:id/logIn"
+      },
+      "event": {
+        "type": "tap",
+        "eventTime": 1561568969330,
+        "startX": 740,
+        "startY": 1336
+      },
+      "stepId": 5,
+      "screen": {
+        "image": "screenshot_1561568967857.png",
+        "dom": "dom_1561568967857.xml",
+        "fullImageUrl": "http://127.0.0.1:9000/mesmer-static-content/mesmer-dev/uploads/patterns/5d13a696ec0fecde3c4c7a81/screenshot_1561568967857.png"
+      },
+      "domUrl": "http://127.0.0.1:9000/mesmer-static-content/mesmer-dev/uploads/patterns/5d13a696ec0fecde3c4c7a81/dom/dom_1561568967857.xml",
+      "result": {
+        "success": true,
+        "status": true
+      }
+    },
+    {
+      "element": null,
+      "event": {
+        "type": "end",
+        "eventTime": 1561568972420
+      },
+      "stepId": 6,
+      "screen": {
+        "image": "screenshot_1561568971243.png",
+        "dom": "dom_1561568971243.xml",
+        "fullImageUrl": "http://127.0.0.1:9000/mesmer-static-content/mesmer-dev/uploads/patterns/5d13a696ec0fecde3c4c7a81/screenshot_1561568971243.png"
+      },
+      "domUrl": "http://127.0.0.1:9000/mesmer-static-content/mesmer-dev/uploads/patterns/5d13a696ec0fecde3c4c7a81/dom/dom_1561568971243.xml",
+      "result": {
+        "success": true,
+        "status": true
+      }
+    }
+  ]
+}
