@@ -59,6 +59,16 @@ public class TapExecutor extends StepExecutor {
                 UIElement uiElementReplay = ElementFinder.findUdaUIElementinReplay(uiElementRecord, MobileDriver.getInstance().getPageSource());
                 uda = AssertionsValidator.validateTextEquals(uda, uiElementReplay);
             }
+            if(uda.getType().equals("EXISTS")){
+                if(uda.getElementType().equals("XPATH")){
+                    uda = AssertionsValidator.validateXPathExistence(uda);
+                }
+            }
+            if(uda.getType().equals("CREATE_VAR")){
+                if(uda.getElementType().equals("TEXT")){
+
+                }
+            }
         }
 
 

@@ -5,6 +5,7 @@ import com.ebricks.scriptexecutor.model.UIElement;
 import com.ebricks.scriptexecutor.model.uda.BaseResult;
 import com.ebricks.scriptexecutor.model.uda.Result;
 import com.ebricks.scriptexecutor.model.uda.Uda;
+import com.ebricks.scriptexecutor.resource.MobileDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
@@ -106,5 +107,33 @@ public class AssertionsValidator {
             logger.error("Element with the specified udaId was not found");
             return null;
         }
+    }
+
+    public static Uda validateXPathExistence(Uda uda) throws IOException {
+        if( MobileDriver.getInstance().getDriver().findElementsByXPath(uda.getValue()) != null ){
+            logger.info("Asserted XPATH exists");
+
+            //-----------creating uda---------------------------------------
+            uda.setResult(new Result());
+            uda.getResult().setSuccess(true);
+            uda.getResult().setStatus("SUCCESS");
+            uda.getResult().setValue("");
+            uda.getResult().setBase(null);
+            uda.getResult().setResult(null);
+            //--------------------------------------------------------------
+        }
+        else{
+            logger.error("Asserted XPATH does not exist");
+
+            //-----------creating uda---------------------------------------
+            uda.setResult(new Result());
+            uda.getResult().setSuccess(false);
+            uda.getResult().setStatus("FAILED");
+            uda.getResult().setValue("XPATH should exist " + uda.getValue());
+            uda.getResult().setBase(null);
+            uda.getResult().setResult(null);
+            //--------------------------------------------------------------
+        }
+        return uda;
     }
 }
