@@ -6,6 +6,7 @@ import com.ebricks.scriptexecutor.main.Driver;
 import com.ebricks.scriptexecutor.model.Step;
 import com.ebricks.scriptexecutor.model.TapEvent;
 import com.ebricks.scriptexecutor.model.UIElement;
+import com.ebricks.scriptexecutor.model.uda.Uda;
 import com.ebricks.scriptexecutor.resource.MobileDriver;
 import io.appium.java_client.touch.offset.PointOption;
 import org.w3c.dom.Document;
@@ -166,6 +167,124 @@ public class ElementFinder {
             return null;
     }
 
+    public static UIElement findUdaUIElementinReplay(UIElement uiElement, String pageSource) throws ParserConfigurationException, IOException, SAXException {
+
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+        StringReader stringReader = new StringReader(pageSource);
+        InputSource inputSource = new InputSource(stringReader);
+        Document document = documentBuilder.parse(inputSource);
+
+        WeightCalculator weightCalculator = new WeightCalculator(document);
+        double textWeight = weightCalculator.getWeight("text", uiElement.getType());
+        double resourceIdWeight = weightCalculator.getWeight("resource-id", uiElement.getType());
+        double packageWeight = weightCalculator.getWeight("package", uiElement.getType());
+        double contentDescWeight = weightCalculator.getWeight("content-desc", uiElement.getType());
+        double checkableWeight = weightCalculator.getWeight("checkable", uiElement.getType());
+        double checkedWeight = weightCalculator.getWeight("checked", uiElement.getType());
+        double clickableWeight = weightCalculator.getWeight("clickable", uiElement.getType());
+        double enabledWeight = weightCalculator.getWeight("enabled", uiElement.getType());
+        double focusableWeight = weightCalculator.getWeight("focusable", uiElement.getType());
+        double focusedWeight = weightCalculator.getWeight("focused", uiElement.getType());
+        double scrollableWeight = weightCalculator.getWeight("scrollable", uiElement.getType());
+        double longClickableWeight = weightCalculator.getWeight("long-clickable", uiElement.getType());
+        double passwordWeight = weightCalculator.getWeight("password", uiElement.getType());
+        double selectedWeight = weightCalculator.getWeight("selected", uiElement.getType());
+        double boundsWeight = weightCalculator.getWeight("bounds", uiElement.getType());
+
+        List<Element> elements = new ArrayList<>();
+        List<Double> weights = new ArrayList<>();
+        double weightOfElement;
+        double largestWeight = 0.0;
+        double largestTextWeightage = 0.0;
+        int elementWithLargestWeight = 0;
+        int countOfFoundElements = 0;
+        NodeList nodeList = document.getElementsByTagName("*");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            if (node.getNodeName().equals(uiElement.getType())) {
+                Element element = (Element) node;
+                weightOfElement = 0.0;
+
+                double textSimilarity = jaroDistance(element.getAttribute("text"), uiElement.getText());
+                weightOfElement += textSimilarity * textWeight;
+
+                if (textSimilarity * textWeight > largestTextWeightage) {
+                    largestTextWeightage = textSimilarity * textWeight;
+                }
+
+                if (element.getAttribute("resource-id").equals(uiElement.getResourceId())) {
+                    weightOfElement += resourceIdWeight;
+                }
+
+                if (element.getAttribute("package").equals(uiElement.getPkg())) {
+                    weightOfElement += packageWeight;
+                }
+
+                double contentDescSimilarity = jaroDistance(element.getAttribute("content-desc"), uiElement.getContentDesc());
+                weightOfElement += contentDescSimilarity * contentDescWeight;
+
+                if (element.getAttribute("checkable").equals(uiElement.isCheckable())) {
+                    weightOfElement += checkableWeight;
+                }
+
+                if (element.getAttribute("checked").equals(uiElement.isChecked())) {
+                    weightOfElement += checkedWeight;
+                }
+
+                if (element.getAttribute("clickable").equals(uiElement.isClickable())) {
+                    weightOfElement += clickableWeight;
+
+                }
+                if (element.getAttribute("enabled").equals(uiElement.isEnabled())) {
+                    weightOfElement += enabledWeight;
+
+                }
+                if (element.getAttribute("focusable").equals(uiElement.isFocusable())) {
+                    weightOfElement += focusableWeight;
+
+                }
+                if (element.getAttribute("focused").equals(uiElement.isFocused())) {
+                    weightOfElement += focusedWeight;
+
+                }
+                if (element.getAttribute("scrollable").equals(uiElement.isScrollable())) {
+                    weightOfElement += scrollableWeight;
+
+                }
+                if (element.getAttribute("long-clickable").equals(uiElement.isLongClickable())) {
+                    weightOfElement += longClickableWeight;
+
+                }
+                if (element.getAttribute("password").equals(uiElement.isPassword())) {
+                    weightOfElement += passwordWeight;
+                }
+                if (element.getAttribute("selected").equals(uiElement.isSelected())) {
+                    weightOfElement += selectedWeight;
+                }
+
+                elements.add(element);
+                weights.add(weightOfElement);
+            }
+        }
+
+        for (int i = 0; i < elements.size(); i++) {
+            countOfFoundElements++;
+
+            if (weights.get(i) > largestWeight) {
+                largestWeight = weights.get(i);
+                elementWithLargestWeight = countOfFoundElements;
+            }
+
+        }
+
+        System.out.println("This is element with largest weight: "+elementWithLargestWeight);
+        System.out.println("This is size of elements: "+elements.size());
+        System.out.println("This is size of weights: "+weights.size());
+        System.out.println("THis is count of found elements: "+countOfFoundElements);
+        return ElementGenerator.generateFromDomElement(elements.get(elementWithLargestWeight -1));
+}
+
     public static double jaroDistance(String s, String t) {
         int s_len = s.length();
         int t_len = t.length();
@@ -221,9 +340,6 @@ public class ElementFinder {
         InputSource inputSource = new InputSource(stringReader);
         Document document = documentBuilder.parse(inputSource);
 
-        // this list will contain all the elements in the ranges of which, the x and y coordinates fall
-        System.out.println("Screen coordinates (height): " + MobileDriver.getInstance().getDriver().manage().window().getSize().height);
-        System.out.println("Screen coordinates (height): " + MobileDriver.getInstance().getDriver().manage().window().getSize().width);
         List<Element> foundElements = findAllWithXandYCoordinates(x, y, document);
 
         // here we will find the element with smallest width and height in the found elements:
@@ -256,7 +372,7 @@ public class ElementFinder {
         List<Element> foundElements = new ArrayList<Element>();
 
         NodeList nodeList = document.getElementsByTagName("*");
-        System.out.println("Length of nodelist: " + nodeList.getLength());
+
         for (int i = 1; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
             Element element = (Element) node;
@@ -273,7 +389,6 @@ public class ElementFinder {
                 foundElements.add(element);
             }
         }
-        System.out.println("length of found elements: " + foundElements.size());
         return foundElements;
     }
 
@@ -325,5 +440,31 @@ public class ElementFinder {
         int boundX = Integer.parseInt(bounds.replaceAll("\\D", ",").split(",")[1]);
         int boundY = Integer.parseInt(bounds.replaceAll("\\D", ",").split(",")[2]);
         return new Point(boundX + relativeX, boundY + relativeY);
+    }
+
+    public static UIElement findByUdaId(Uda uda, String domContent) throws ParserConfigurationException, IOException, SAXException {
+
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+        StringReader stringReader = new StringReader(domContent);
+        InputSource inputSource = new InputSource(stringReader);
+        Document document = documentBuilder.parse(inputSource);
+
+        Element requiredElement = null;
+
+        NodeList nodeList = document.getElementsByTagName("*");
+
+        //starting the loop from 1 because the first element at index 0 is hierarchy
+        for (int i = 1; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            Element element = (Element) node;
+            String udaId = element.getAttribute("udaId");
+            if (Integer.parseInt(udaId) == uda.getUdaId()) {
+                requiredElement = element;
+                break;
+            }
+        }
+
+        return ElementGenerator.generateFromDomElement(requiredElement);
     }
 }

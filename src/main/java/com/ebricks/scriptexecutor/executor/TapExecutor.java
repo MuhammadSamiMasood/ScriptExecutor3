@@ -3,10 +3,12 @@ package com.ebricks.scriptexecutor.executor;
 import com.ebricks.scriptexecutor.config.ExecutionConfig;
 import com.ebricks.scriptexecutor.finder.ElementFinder;
 import com.ebricks.scriptexecutor.model.*;
+import com.ebricks.scriptexecutor.model.uda.Result;
+import com.ebricks.scriptexecutor.model.uda.Uda;
 import com.ebricks.scriptexecutor.resource.MobileDriver;
 import com.ebricks.scriptexecutor.resource.ResultFolder;
 import com.ebricks.scriptexecutor.resource.TestCasesFolder;
-import com.ebricks.scriptexecutor.status.Status;
+import com.ebricks.scriptexecutor.validator.AssertionsValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -48,8 +50,20 @@ public class TapExecutor extends StepExecutor {
         String domContent = FileUtils.readFileToString(new File(TestCasesFolder.getPath() + "dom/" + step.getScreen().getDom()));
         step.setUiElement(ElementFinder.findByXandYCoordinates(tapEvent.getStartX(), tapEvent.getStartY(), domContent));
 
-        UIElement uiElement = ElementFinder.findReplayUIElement(step, MobileDriver.getInstance().getDriver().getPageSource());
-        if (uiElement != null) { ;
+
+        //validating the uda
+        for(Uda uda: step.getUda()){
+            System.out.println("uda: " + uda.getValue() + ", type: " + uda.getType() + ", _id: " + uda.get_id() );
+            if(uda.getType().equals("EQUAL")) {
+                UIElement uiElementRecord = ElementFinder.findByUdaId(uda, domContent);
+                UIElement uiElementReplay = ElementFinder.findUdaUIElementinReplay(uiElementRecord, MobileDriver.getInstance().getPageSource());
+                uda = AssertionsValidator.validateTextEquals(uda, uiElementReplay);
+            }
+        }
+
+
+        UIElement uiElement = ElementFinder.findReplayUIElement(step, MobileDriver.getInstance().getPageSource());
+        if (uiElement != null) {
             step.setUiElement(uiElement);
 
             MobileDriver.getInstance().click(step);
