@@ -136,4 +136,77 @@ public class AssertionsValidator {
         }
         return uda;
     }
+
+    public static Uda validateContainVariable(Uda uda, UIElement uiElement){
+
+        String bounds = uiElement.getBounds();
+        bounds = bounds.replaceAll("\\D", ",");
+        String[] splitted = bounds.split(",");
+
+        int boundX1 = Integer.parseInt(splitted[1]);
+        int boundY1 = Integer.parseInt(splitted[2]);
+        int boundX2 = Integer.parseInt(splitted[4]);
+        int boundY2 = Integer.parseInt(splitted[5]);
+
+        if(uda.getName().equals(uiElement.getText())){
+            logger.info("Dynamically asserted variable element's text matched in replay");
+
+            //-----------creating uda---------------------------------------
+            uda.setResult(new Result());
+            uda.getResult().setSuccess(true);
+            uda.getResult().setStatus("SUCCESS");
+            uda.getResult().setValue("");
+
+            uda.getResult().setBase(new BaseResult());
+            uda.getResult().getBase().setPosition(new ArrayList<>());
+            uda.getResult().getBase().getPosition().add(boundX1);
+            uda.getResult().getBase().getPosition().add(boundY1);
+            uda.getResult().getBase().setSize(new ArrayList<>());
+            uda.getResult().getBase().getSize().add(boundX2-boundX1);
+            uda.getResult().getBase().getSize().add(boundY2-boundY1);
+            uda.getResult().getBase().setValue(uda.getValue());
+            uda.getResult().getBase().setDisplay(true);
+
+            uda.getResult().setResult(new BaseResult());
+            uda.getResult().getResult().setPosition(new ArrayList<>());
+            uda.getResult().getResult().getPosition().add(boundX1);
+            uda.getResult().getResult().getPosition().add(boundY1);
+            uda.getResult().getResult().setSize(new ArrayList<>());
+            uda.getResult().getResult().getSize().add(boundX2-boundX1);
+            uda.getResult().getResult().getSize().add(boundY2-boundY1);
+            uda.getResult().getResult().setValue(uiElement.getText());
+            uda.getResult().getResult().setDisplay(true);
+        }
+        else{
+            logger.error("Element's, with dynamically asserted variable, text did not match in replay");
+
+            //---------------creating uda-----------------------------------
+            uda.setResult(new Result());
+            uda.getResult().setSuccess(false);
+            uda.getResult().setStatus("FAILED");
+            uda.getResult().setValue("This should equal to " + uda.getName());
+
+            uda.getResult().setBase(new BaseResult());
+            uda.getResult().getBase().setPosition(new ArrayList<>());
+            uda.getResult().getBase().getPosition().add(boundX1);
+            uda.getResult().getBase().getPosition().add(boundY1);
+            uda.getResult().getBase().setSize(new ArrayList<>());
+            uda.getResult().getBase().getSize().add(boundX2-boundX1);
+            uda.getResult().getBase().getSize().add(boundY2-boundY1);
+            uda.getResult().getBase().setValue(uda.getValue());
+            uda.getResult().getBase().setDisplay(true);
+
+            uda.getResult().setResult(new BaseResult());
+            uda.getResult().getResult().setPosition(new ArrayList<>());
+            uda.getResult().getResult().getPosition().add(boundX1);
+            uda.getResult().getResult().getPosition().add(boundY1);
+            uda.getResult().getResult().setSize(new ArrayList<>());
+            uda.getResult().getResult().getSize().add(boundX2-boundX1);
+            uda.getResult().getResult().getSize().add(boundY2-boundY1);
+            uda.getResult().getResult().setValue(uiElement.getText());
+            uda.getResult().getResult().setDisplay(true);
+            //--------------------------------------------------------------
+        }
+        return uda;
+    }
 }

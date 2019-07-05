@@ -3,6 +3,7 @@ package com.ebricks.scriptexecutor.executor;
 import com.ebricks.scriptexecutor.config.ExecutionConfig;
 import com.ebricks.scriptexecutor.finder.ElementFinder;
 import com.ebricks.scriptexecutor.model.*;
+import com.ebricks.scriptexecutor.model.uda.DynamicVariable;
 import com.ebricks.scriptexecutor.model.uda.Result;
 import com.ebricks.scriptexecutor.model.uda.Uda;
 import com.ebricks.scriptexecutor.resource.MobileDriver;
@@ -65,6 +66,19 @@ public class TapExecutor extends StepExecutor {
                 }
             }
             if(uda.getType().equals("CREATE_VAR")){
+                if(uda.getElementType().equals("TEXT")){
+
+                }
+            }
+            if(uda.getType().equals("CREATE_VAR")){
+                if(uda.getElementType().equals("TEXT")){
+                    UIElement uiElementRecord = ElementFinder.findByUdaId(uda, domContent);
+                    UIElement uiElementReplay = ElementFinder.findUdaUIElementinReplay(uiElementRecord, MobileDriver.getInstance().getPageSource());
+                    uda = AssertionsValidator.validateContainVariable(uda, uiElementReplay);
+                    DynamicVariable.variables.put(uda.getValue(), uiElementReplay.getText());
+                }
+            }
+            if(uda.getType().equals("CONTAIN_VAR")){
                 if(uda.getElementType().equals("TEXT")){
 
                 }
